@@ -21,5 +21,5 @@ class Location(BaseModel):
 @router.get("/api/weather/{city}")
 async def weather(loc: Location = Depends(), units: Optional[str] = "metric"):
     """Returns the weather data"""
-    data = await get_report(loc.city, loc.state, loc.country, units, True)
+    data = await get_report(loc.city, loc.state, loc.country, units)
     return data

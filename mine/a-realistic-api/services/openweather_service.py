@@ -1,4 +1,5 @@
 import json
+from math import fabs
 from typing import Optional
 from xmlrpc.client import Boolean
 from fastapi import HTTPException
@@ -11,11 +12,7 @@ httpxAsyncClient = httpx.AsyncClient(verify=False)
 
 
 async def get_report(
-    city: str,
-    state: Optional[str],
-    country: str,
-    units: Optional[str],
-    useRequests: Optional[Boolean] = False,
+    city: str, state: Optional[str], country: str, units: Optional[str]
 ) -> dict:
     if state:
         q = f"{city}, {state}, {country}"
@@ -28,16 +25,11 @@ async def get_report(
     print(url)
 
     try:
-        if useRequests:
-            resp = requests.get(url)
+        async with httpx.AsyncClient(verify=False) as client:
+            resp = await client.get(url)
             resp.raise_for_status()
-        else:
-            async with httpxAsyncClient as client:
-                resp = await client.get(url)
-                resp.raise_for_status()
 
         data = resp.json()
-        print(data)
         return data
 
     except httpx.HTTPStatusError as e:
