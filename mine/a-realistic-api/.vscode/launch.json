@@ -1,0 +1,38 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python Debugger: FastAPI",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": ["main:app", "--reload"],
+      "jinja": true
+    },
+    {
+      // This configuration runs the python -m uvicorn main:app --reload --port 8000 inside the root folder
+      "name": "Python: Uvicorn",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": [
+        "main:app", // This points to your FastAPI app
+        "--reload", // Enables auto-reload for development
+        "--port",
+        "8000", // Runs the server on port 8001
+        "--host",
+        "127.0.0.1" // Ensures the server binds to localhost
+      ],
+      "jinja": true,
+      "justMyCode": false,
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/venv/Scripts" // Ensures proper module resolution
+      },
+      "python": "${env:VIRTUAL_ENV}/bin/python",
+      "console": "integratedTerminal"
+    }
+  ]
+}
